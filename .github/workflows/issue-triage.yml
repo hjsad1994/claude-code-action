@@ -19,9 +19,12 @@ jobs:
           fetch-depth: 0
 
       - name: Run Claude Code for Issue Triage
-        uses: anthropics/claude-code-action@main
+        uses: ./
         with:
           prompt: "/label-issue REPO: ${{ github.repository }} ISSUE_NUMBER${{ github.event.issue.number }}"
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          allowed_non_write_users: "*" # Required for issue triage workflow, if users without repo write access create issues
+          custom_api_base_url: ${{ secrets.CUSTOM_API_BASE_URL }}
+          custom_api_key: ${{ secrets.CUSTOM_API_KEY }}
+          allowed_non_write_users: "*"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          claude_args: |
+            --model "claude-opus-4-5-20251101"
