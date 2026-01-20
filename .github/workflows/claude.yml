@@ -13,10 +13,10 @@ on:
 jobs:
   claude:
     if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '/claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '/claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '/claude') || contains(github.event.issue.title, '/claude')))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,6 +37,9 @@ jobs:
           # TrollLLM API configuration
           custom_api_base_url: ${{ secrets.CUSTOM_API_BASE_URL }}
           custom_api_key: ${{ secrets.CUSTOM_API_KEY }}
+
+          # Trigger phrase
+          trigger_phrase: "/claude"
 
           claude_args: |
             --allowedTools "Bash(bun install),Bash(bun test:*),Bash(bun run format),Bash(bun typecheck)"
