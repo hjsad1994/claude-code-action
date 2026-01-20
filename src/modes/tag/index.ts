@@ -19,6 +19,7 @@ import { isEntityContext } from "../../github/context";
 import type { PreparedContext } from "../../create-prompt/types";
 import type { FetchDataResult } from "../../github/data/fetcher";
 import { parseAllowedTools } from "../agent/parse-tools";
+import { addReactionToComment } from "../../github/operations/reactions";
 
 /**
  * Tag mode implementation.
@@ -70,6 +71,9 @@ export const tagMode: Mode = {
     if (!isEntityContext(context)) {
       throw new Error("Tag mode requires entity context");
     }
+
+    // Add reaction to the trigger comment (eyes emoji 👀)
+    await addReactionToComment(octokit.rest, context, "eyes");
 
     // Check if actor is human
     await checkHumanActor(octokit.rest, context);
